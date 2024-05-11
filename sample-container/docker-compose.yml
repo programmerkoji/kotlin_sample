@@ -1,0 +1,32 @@
+version: '3.9'
+
+services:
+  postgres:
+    image: postgres:15-bullseye
+    container_name: sample-db
+    environment:
+      POSTGRES_USER: my_user
+      POSTGRES_PASSWORD: password1234
+      POSTGRES_DB: my_sample_db
+      POSTGRES_INIT_DB_ARGS: --encoding=UTF-8
+    volumes:
+      - ./postgres_data:/var/lib/postgresql/data
+    networks:
+      - sample-network
+  web:
+    build:
+      context: ./
+      dockerfile: ./web/Dockerfile
+    container_name: sample-web
+    tty: true
+    working_dir: /app
+    volumes:
+      - ../spring:/app
+    ports:
+      - 8080:8080
+    depends_on:
+      - postgres
+    networks:
+      - sample-network
+networks:
+  sample-network:

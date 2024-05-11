@@ -41,3 +41,4 @@ out/
 
 ### Postgres ###
 /sample-container/postgres_data
+/src/main/resources/application.properties
